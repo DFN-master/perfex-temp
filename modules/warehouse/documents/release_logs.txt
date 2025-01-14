@@ -1,0 +1,131 @@
+1.3.1
+-	Fix Bug - Serial number :Remove Serial number have value is "null"
+-	Bug - Inventory delivery voucher: in case the warehouse receipt has > 57 items => when creating the warehouse voucher, the 58th item will not be saved onwards, the reason is that the parameters in the PHP file.ini there is a data capacity limit when data is transferred from the client => Increase 2 parameters "max_input_vars" and "post_max_size"
+-	Fix Bug - filter by barcode: update filter
+
+
+1.3.2
+-	Update language key: unit name in Inventory valuation report
+-	Fix bug inventory_valuation_report: filter is wrong when selecting all repositories and not selecting warehouses
+-	Update Inventory Delivery voucher: don't create delivery note from invoice if quantity is not available
+-	Revert Delivery note after invoice deleted
+-	Update Inventory receiving voucher: Save the corresponding inventory quantity according to the inventory price
+-	Item: update filter related Commodity group, sub Group, Style, Model, Size, Color, Warranty
+
+
+1.3.3
+Item
+-	Fix bugs: Pressing save multiple times creates many duplicate items
+Warehouse
+-	Update, for each warehouse there will be an option "show warehouse when inventory = 0" otherwise it will hide this warehouse on the product management screen
+Permission
+-	Add permissions to Inventory: right to export only and right to import only warehouse
+Inventory Delivery note
+-	Update Delivery Note PDF with shortened form when item has multiple serial numbers
+Bugs
+-	Uniform inventory quantity in item view and report stock. Revert serial number after deleting approved release slip
+
+
+1.3.4
+-	Fix bug related new template
+-	Fix bug when run on PHP 8.1
+Permission
+-	Inventory delivery voucher: add permission for change serial number on delivery note
+.PDF
+-	Add setting "Display price when print barcode"
+Inventory delivery note
+-	Show invoice no on view receipt note
+Item
+-	Check commodity code is unique
+Bugs
+-	Return order: fix bug create return from Sales Order.
+-	Loss &; Adjustment: fix bug when create loss &; adjustment
+-	Inventory delivery voucher: Fix bug Revert quantity twice when deleting approved stock release slip (in case the product does not enter expiry date, lot number). And Unify inventory quantity in item view and report stock. Revert serial number
+-	Inventory receipt voucher: fix bug don't load item when create receipt voucher from Purchase Order
+
+
+1.3.5
+Bugs
+-	Item: fix bug Create variant products
+-	Fix the error of Custom field (belong to Items) of multiselect type not being able to save multiple options
+-	The shipment display does not match the invoice
+-	Fix the error of items not being stocked correctly in settings related to the option "Create an inventory receipt when the Purchase Order is approved"
+-	Return Order :Fix bug "Select Inventory" error after approving Return Order created from "Inventory Receipt Voucher"
+-	Delivery note: Fix bug revert serial number when create return from Delivery note
+-	Fix bug create invoice for product is service
+Warehouse:
+-	New feature: Assign warehouse management to employees
+Inventory receipt voucher:
+-	New feature :Allows deleting and recreating Inventory receipt voucher from Purchase Order
+-	Fix bug “csrf_token_name” dynamic
+Delivery note
+-	Fix bug create delivery note from invoice ( invoices have many similar items )
+
+
+1.3.6
+Report
+-	Fix bug filter on report
+Delivery note
+-	Add option “notify customer when change delivery status
+
+
+1.3.7
+Setting
+-	Add option hidden shipping fee
+
+
+1.3.8
+Lotnumber
+-	Automatically generate batch numbers when create Inventory Receipt Voucher: Lot Number Structures
+Example: LOT-0123-00000
+LOT: Prefix for allowing options
+0123: month (2 numbers) + year (2 numbers)
+00000: Increase by 5 numbers
+-	Setting :Lot Number Prefix and Next Lot Number
+Packing List
+-	Customizing Measurement unit name on Packing list.
+-	Customizing the display of information on the Packing list PDF.
+Items
+-	Hide option “Add opening stock” on table when Item is a non-stock products
+Bugs:
+-	Inventory Delivery Voucher: decrease Double the amount of inventory when Delivery Note automatically creates it from Invoice.
+-	Inventory Receipt Voucher: 2 inventory receiving vouchers are automatically created from 1 purchase order (if the admin approves the purchase order with options without following the process).
+-	Items: Fix bug import item
+
+1.3.8.1
+	       Bugs:
+-	Items Cron job data: fix bug save data Notification recipients in Inventory Cron Setting
+-	Item: Fix bug update variation + custom fields select multiple
+Report:
+-	Add excel export function for INVENTORY VALUATION REPORT, STOCK SUMMARY REPORT
+
+1.3.8.2
+Items:
+-	Additional import, Excel export for field Tax2
+-	Fix bugs Import item color, Inventory min
+Permission:
+-	Add Own view permission for features:Inventory receiving voucher, Inventory delivery voucher, Packing Lists, Internal delivery note, Loss & adjustment, Receiving-Exporting return order.
+Inventory History:
+-	Update inventory balance at the beginning of the period when Inventory delivery voucher is created from Invoice
+
+
+1.3.9
+Return order:
+-	Add Purchase Price column for Return order create from Inventory delivery
+
+10_04_2024
+V_1.4.0
+-Serial Number: Add a "Auto Generate Serial Numbers", serial number will be auto populated.
+The format of the serial number would be yyyymmddxxxxxx where yyyy = year, mm  = month, dd = day, xxxxxx = auto increment number.
+-Setting Serial Number: Serial number is required
+
+22_04_2024
+Update Number padding zero for format: Inventory receipt, Inventory delivery, Internal delivery, Packing list, Return Order
+
+07_05_2024
+V_1.4.1
+Update Serial Number data Type
+
+07_05_2024
+V_1.4.1.1
+Add New Report: Stock movement summary report, Stock Balance Report

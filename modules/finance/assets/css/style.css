@@ -1,0 +1,48 @@
+/* .company_top_info::before {
+    content: '';
+    opacity: 0.75;
+    top: -36px;
+    left: 7px;
+    bottom: 40px;
+    right: -10px;
+    position: absolute;
+    background-image: url(../img/hand-holding-usd-solid.svg);
+    background-size: cover;
+    pointer-events: none;
+    margin-left: 183px;
+} */
+
+.border-up-caixa{
+    padding-top: 7px;
+    margin-left: 50%;
+    border-left: 1px solid #aaa !important;
+}
+.border-down-caixa{
+    padding-bottom: 7px;
+    margin: 0 50px 0 50px;
+    border-left: 1px solid #aaa !important;
+    border-right: 1px solid #aaa !important;
+}
+
+.dados-caixa{
+    margin-left: 50%;
+}
+
+.hr-caixa{
+    margin: 0 50px 0 50px;
+    border-top: 1px solid #aaa !important;
+}
+
+.left-border{
+    padding: 2% 0 2% 0;
+    border-left: 1px solid #ddd !important;
+}
+
+.gestion_finance::before {
+    content: '\f200';
+    color: #fff;
+}
+
+/* .yellow{
+    font-size: 100px !important;
+} */
