@@ -58,7 +58,7 @@ $lang['announcements_lowercase']      = 'anúncios';
 $lang['new_announcement']             = 'Novo Anúncio';
 $lang['announcement_name']            = 'Nome do anúncio';
 $lang['announcement_message']         = 'Mensagem';
-$lang['announcement_show_to_staff']   = 'Mostrar para os Colaboradores';
+$lang['announcement_show_to_staff']   = 'Mostrar para os Prestadores de Serviço';
 $lang['announcement_show_to_clients'] = 'Mostrar para os Clientes';
 $lang['announcement_show_my_name']    = 'Mostrar meu nome';
 
@@ -357,7 +357,7 @@ $lang['reports_sales_dt_items_customers_amount_with_tax'] = 'Quantia + Taxas';
 # Roles
 $lang['new_role']           = 'Nova Função';
 $lang['all_roles']          = 'Todas as Funções';
-$lang['roles']              = 'Funções dos Colaboradores';
+$lang['roles']              = 'Funções dos Prestadores de Serviço';
 $lang['role']               = 'Função';
 $lang['role_lowercase']     = 'função';
 $lang['roles_total_users']  = 'Total de Usuários: ';
@@ -411,8 +411,8 @@ $lang['settings_general_company_main_domain']         = 'Domínio Principal da E
 $lang['settings_general_use_knowledgebase']           = 'Usar a ajuda online?';
 $lang['settings_general_use_knowledgebase_tooltip']   = 'Se você marcar essa opção, a ajuda online aparecerá também para o cliente';
 $lang['settings_general_tables_limit']                = 'Limite de paginação de Tabelas';
-$lang['settings_general_default_staff_role']          = 'Função padrão do Colaborador';
-$lang['settings_general_default_staff_role_tooltip']  = 'Quando você adicionar um novo Colaborador, essa função será selecionada por padrão';
+$lang['settings_general_default_staff_role']          = 'Função padrão do Prestador de Serviço';
+$lang['settings_general_default_staff_role_tooltip']  = 'Quando você adicionar um novo Prestador de Serviço, essa função será selecionada por padrão';
 
 $lang['settings_localization_date_format']      = 'Formato da Data';
 $lang['settings_localization_default_timezone'] = 'Fuso Horário Padrão';
@@ -425,7 +425,7 @@ $lang['settings_reminders_contracts_tooltip'] = 'Notificação do lembrete de ex
 
 $lang['settings_tickets_use_services']             = 'Usar Serviços';
 $lang['settings_tickets_max_attachments']          = 'Máximo de arquivos anexos por Solicitações';
-$lang['settings_tickets_allow_departments_access'] = 'Permitir que o Colaborador acesse apenas Solicitações que pertençam ao departamento desse Colaborador';
+$lang['settings_tickets_allow_departments_access'] = 'Permitir que o Prestador de Serviço acesse apenas Solicitações que pertençam ao departamento desse Prestador de Serviço';
 $lang['settings_tickets_allowed_file_extensions']  = 'Extensões de arquivos permitidos para os Anexos';
 
 $lang['settings_sales_general']                                    = 'Geral';
@@ -536,7 +536,7 @@ $lang['als_clients']               = 'Clientes';
 $lang['als_leads']                 = 'Leads';
 $lang['als_contracts']             = 'Contratos';
 $lang['als_sales']                 = 'Vendas';
-$lang['als_staff']                 = 'Colaboradores';
+$lang['als_staff']                 = 'Prestadores de Serviço';
 $lang['als_tasks']                 = 'Tarefas';
 $lang['als_kb']                    = 'Ajuda Online';
 $lang['als_media']                 = 'Mídia';
@@ -614,16 +614,16 @@ $lang['ticket_settings_none_assigned']            = 'Nenhuma';
 $lang['ticket_status_changed_successfully']       = 'Alterar o Status da Solicitação';
 $lang['ticket_status_changed_fail']               = 'Problema para Alterar o Status da Solicitação';
 
-$lang['ticket_staff_string']                = 'Colaborador';
+$lang['ticket_staff_string']                = 'Prestador de Serviço';
 $lang['ticket_client_string']               = 'Cliente';
 $lang['ticket_posted']                      = 'Postado: %s';
 $lang['ticket_access_by_department_denied'] = 'Você não tem acesso a essa Solicitação. Essa Solicitação pertence a um departamento que você não faz parte';
 
 # Staff
-$lang['new_staff']                       = 'Novo Colaborador';
-$lang['staff_members']                   = 'Colaboradores';
-$lang['staff_member']                    = 'Colaborador';
-$lang['staff_member_lowercase']          = 'Colaborador';
+$lang['new_staff']                       = 'Novo Prestador de Serviço';
+$lang['staff_members']                   = 'Prestadores de Serviço';
+$lang['staff_member']                    = 'Prestador de Serviço';
+$lang['staff_member_lowercase']          = 'Prestador de Serviço';
 $lang['staff_profile_updated']           = 'Seu Perfil foi Atualizado';
 $lang['staff_old_password_incorrect']    = 'Sua senha antiga está incorreta';
 $lang['staff_password_changed']          = 'Sua senha foi Alterada';
@@ -2444,7 +2444,7 @@ $lang['project_overview_expenses_billed']                 = 'Despesas Faturadas'
 $lang['project_overview_expenses_unbilled']               = 'Despesas não Faturadas';
 $lang['announcement_date_list']                           = 'Data';
 $lang['project_setting_view_finance_overview']            = 'ver visão geral das finanças';
-$lang['show_all_tasks_for_project_member']                = 'Permitir ao Colaborador a ver todas as tarefas, relacionadas a projetos que ele faz parte? (inclui não Colaboradores)';
+$lang['show_all_tasks_for_project_member']                = 'Permitir ao Prestador de Serviço a ver todas as tarefas, relacionadas a projetos que ele faz parte? (inclui não Prestadores de Serviço)';
 $lang['not_staff_added_as_project_member']                = 'Adicionado você como um membro do projeto';
 $lang['report_expenses_base_currency_select_explanation'] = 'Você precisa selecionar uma moeda porque o sistema encontrou diferentes moedas usadadas nas despesas.';
 
@@ -2470,7 +2470,7 @@ $lang['auto_stop_tasks_timers_on_new_timer']    = 'Parar todos os outros cronome
 $lang['notification_when_customer_pay_invoice'] = 'Receber notificação quando cliente efetuar um pagamento (embutido)';
 $lang['not_invoice_payment_recorded']           = 'Novo pagamento de fatura - %s';
 $lang['email_template_contact_warning']         = 'A ação de mesclagem de campo de contatos não será substituida se o contato não estiver logado ao mesmo tempo.';
-$lang['change_role_permission_warning']         = 'Alterar permissões de função agora não vão afetar permissões dos Colaboradores atuais que estão usando este papel.';
+$lang['change_role_permission_warning']         = 'Alterar permissões de função agora não vão afetar permissões dos Prestadores de Serviço atuais que estão usando este papel.';
 $lang['task_copied_successfully']               = 'Tarefa copiada com sucesso';
 $lang['failed_to_copy_task']                    = 'Falha ao copiar tarefa';
 $lang['not_project_file_uploaded']              = 'Novo arquivo de projeto adicionado';
@@ -2497,7 +2497,7 @@ $lang['project_progress']                       = 'Progresso';
 $lang['calculate_progress_through_tasks']       = 'Calcular progresso através de tarefas';
 $lang['allow_customer_to_change_ticket_status'] = 'Aceitar que cliente possa mudar o status da Solicitação na área de cliente?';
 $lang['switch_to_general_report']               = 'Trocar para relatórios geral';
-$lang['switch_to_staff_report']                 = 'Trocar para relatório de Colaboradores';
+$lang['switch_to_staff_report']                 = 'Trocar para relatório de Prestadores de Serviço';
 $lang['generate']                               = 'Gerar';
 $lang['from_date']                              = 'Da data';
 $lang['to_date']                                = 'Até a data';
