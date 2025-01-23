@@ -276,13 +276,13 @@ function init_loyalty_portal_menu()
         }
 
 
-        if(!in_array($client_id, $client_arr) && $in_gr == 0){
+/*         if(!in_array($client_id, $client_arr) && $in_gr == 0){
 
                 $item .= '<li class="customers-nav-item">';
                               $item .= '<a href="'.site_url('loyalty/loyalty_portal').'">'._l("membership").'';        
                               $item .= '</a>';
                            $item .= '</li>';
-        }
+        } */
 
     }
     echo html_entity_decode($item);

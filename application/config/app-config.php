@@ -17,7 +17,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-define('APP_BASE_URL', 'https://app.sousahartz.com.br/');
+define('APP_BASE_URL', 'http://localhost:8088');
 
 /*
 * --------------------------------------------------------------------------

@@ -255,13 +255,13 @@ function footer_element_document(){
 */
 function document_module_init_client_menu_items()
 {
-	if(get_option('dmg_allows_customers_to_manage_documents') == 1){
+/* 	if(get_option('dmg_allows_customers_to_manage_documents') == 1){
 		if(is_client_logged_in()){
 			echo '<li class="customers-nav-item-Insurances-plan">
 			<a href="'.site_url('document_management/document_management_client').'" >'._l('dmg_file_management').'</a>
 			</li>'; 
 		} 
-	}
+	} */
 }
 /**
 * add head components

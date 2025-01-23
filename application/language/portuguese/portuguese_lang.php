@@ -2277,7 +2277,7 @@ $lang['project_activity_project_file_removed']         = 'Removeu arquivo do pro
 $lang['clients_my_estimates']                    = 'Minhas Estimativas';
 $lang['client_no_reply']                         = 'Sem Resposta';
 $lang['clients_nav_projects']                    = 'Andamento Processual';
-$lang['clients_my_projects']                     = 'Meus Projetos';
+$lang['clients_my_projects']                     = 'Meu Andamento Processual';
 $lang['client_profile_image']                    = 'Imagem de Perfil';
 $lang['tasks_reminder_notification_before_help'] = 'Notificar os destinatários da tarefa com prazo de entrega antes de X dias. A notificação/e-mail é enviado somente para os destinatários.';
 

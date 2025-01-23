@@ -41,6 +41,9 @@
     </button>
     <div id="dropbox-chooser"></div>
 </div>
+<p class="text-info" style="color: #ff0000; font-size: 18px; text-align: center">
+    <?= _l('customer_files_warning_message'); ?>
+</p>
 <div class="attachments">
     <div class="mtop25">
 

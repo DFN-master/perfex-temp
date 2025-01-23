@@ -18,14 +18,6 @@ function no_index_customers_area()
 
 function add_default_theme_menu_items()
 {
-    if (is_knowledge_base_viewable(true)) {
-        add_theme_menu_item('knowledge-base', [
-            'name'     => _l('clients_nav_kb'),
-            'href'     => site_url('knowledge-base'),
-            'position' => 5,
-        ]);
-    }
-
     if (!is_client_logged_in() && get_option('allow_registration') == 1) {
         add_theme_menu_item('register', [
                 'name'     => _l('clients_nav_register'),
