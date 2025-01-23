@@ -2086,7 +2086,7 @@ $lang['estimate_table_hours_heading'] = 'Horas';
 # General
 $lang['is_customer_indicator']         = 'Cliente';
 $lang['print']                         = 'Imprimir';
-$lang['customer_permission_projects']  = 'Projetos';
+$lang['customer_permission_projects']  = 'Andamento Processual';
 $lang['no_timers_found']               = 'Nenhum cronometro iniciado encontrado';
 $lang['timers_started_confirm_logout'] = 'Foram encontrados cronometros de tarefas iniciados!<br /> Tem a certeza que quer fazer logout sem parar os cronometros?';
 $lang['confirm_logout']                = 'Sair';
@@ -2120,7 +2120,7 @@ $lang['hours']                                               = 'Horas';
 $lang['minutes']                                             = 'Minutos';
 $lang['project']                                             = 'Projeto';
 $lang['project_lowercase']                                   = 'projeto';
-$lang['projects']                                            = 'Projetos';
+$lang['projects']                                            = 'Andamento Processual';
 $lang['projects_lowercase']                                  = 'projetos';
 $lang['project_settings']                                    = 'Configurações do Projeto';
 $lang['project_invoiced_successfully']                       = 'Projeto Faturado com Sucesso';
@@ -2276,7 +2276,7 @@ $lang['project_activity_project_file_removed']         = 'Removeu arquivo do pro
 # Customers area
 $lang['clients_my_estimates']                    = 'Minhas Estimativas';
 $lang['client_no_reply']                         = 'Sem Resposta';
-$lang['clients_nav_projects']                    = 'Projetos';
+$lang['clients_nav_projects']                    = 'Andamento Processual';
 $lang['clients_my_projects']                     = 'Meus Projetos';
 $lang['client_profile_image']                    = 'Imagem de Perfil';
 $lang['tasks_reminder_notification_before_help'] = 'Notificar os destinatários da tarefa com prazo de entrega antes de X dias. A notificação/e-mail é enviado somente para os destinatários.';

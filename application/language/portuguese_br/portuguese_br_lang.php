@@ -1977,7 +1977,7 @@ $lang['home_announcements']           = 'Avisos';
 # Settings
 $lang['settings_leads_kanban_limit']                                    = 'Limitar número de linhas dos leads, por status, no Kan Ban (Modo Cartão)';
 $lang['settings_group_misc']                                            = 'Variados';
-$lang['show_projects_on_calendar']                                      = 'Projetos';
+$lang['show_projects_on_calendar']                                      = 'Andamento Processual';
 $lang['settings_media_max_file_size_upload']                            = 'Tamanho máx permitido para upload de arquivo de Mídia (MB)';
 $lang['settings_client_staff_add_edit_delete_task_comments_first_hour'] = 'Permitir ao cliente/equipe adicionar/editar comentários de tarefas, apenas na primeira hora? (Não aplicado aos administradores)';
 
@@ -2054,7 +2054,7 @@ $lang['estimate_table_hours_heading'] = 'Horas';
 # General
 $lang['is_customer_indicator']         = 'Cliente';
 $lang['print']                         = 'Print';
-$lang['customer_permission_projects']  = 'Projetos';
+$lang['customer_permission_projects']  = 'Andamento Processual';
 $lang['no_timers_found']               = 'Nenhum cronometro iniciado encontrado';
 $lang['timers_started_confirm_logout'] = 'Cronometro de tarefas encontrados iniciados!<br /> Você tem certeza que quer fazer logout sem parar os cronometros?';
 $lang['confirm_logout']                = 'Sair';
@@ -2088,7 +2088,7 @@ $lang['hours']                                               = 'Horas';
 $lang['minutes']                                             = 'Minutos';
 $lang['project']                                             = 'Projeto';
 $lang['project_lowercase']                                   = 'projeto';
-$lang['projects']                                            = 'Projetos';
+$lang['projects']                                            = 'Andamento Processual';
 $lang['projects_lowercase']                                  = 'projetos';
 $lang['project_settings']                                    = 'Configurações do Projeto';
 $lang['project_invoiced_successfully']                       = 'Projeto Faturado com Sucesso';
@@ -2241,7 +2241,7 @@ $lang['project_activity_project_file_removed']         = 'Removeu arquivo do pro
 # Customers area
 $lang['clients_my_estimates']                    = 'Meus Orçamentos';
 $lang['client_no_reply']                         = 'Sem Resposta';
-$lang['clients_nav_projects']                    = 'Projetos';
+$lang['clients_nav_projects']                    = 'Andamento Processual';
 $lang['clients_my_projects']                     = 'Meus Projetos';
 $lang['client_profile_image']                    = 'Imagem de Perfil';
 $lang['tasks_reminder_notification_before_help'] = 'Notificar os destinatários da tarefa com prazo de entrega antes de X dias. A notificação/e-mail é enviado somente para os destinatários.';
