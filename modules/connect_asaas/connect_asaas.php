@@ -6,13 +6,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Connect Asaas e Asaas Invoice Integrado - Módulo de Pagamento
-Description: Integração com Sistema Financeiro Asaas com a função de recebimento via catão de crédito, Boleto e Pix.
+Module Name: Connect Asaas e Asaas NFSe
+Description: Integração com Sistema Financeiro Asaas com a função de recebimento via cartão de crédito, Boleto e Pi, emissão de notas fiscais e admnistração de assinaturas.
 Author: Nando Cardoso - Connect Designers
 Author URI: https://connectdesigners.com.br
-Version: 1.4.2
+Version: 1.4.3
 Requires at least: 2.9.*
-Author URI:
 */
 
 
@@ -172,10 +171,12 @@ function asaas_settings_tab_footer()
 
 function asaas_after_invoice_added($invoice_id)
 {
+    // Se o módulo de parcelamento estiver ativo, chama a função de preparação de fatura
     if (get_option('paymentmethod_connect_asaas_is_installment')) {
         prepararFatura($invoice_id);
     }
 
+    // Se a emissão via boleto estiver habilitada
     if (get_option('paymentmethod_connect_asaas_billet_only')) {
 
         $CI = &get_instance();
@@ -185,137 +186,153 @@ function asaas_after_invoice_added($invoice_id)
 
         if ($invoice) {
 
+            // Se houver data de vencimento
             if ($invoice->duedate) {
 
                 $allowed_payment_modes = unserialize($invoice->allowed_payment_modes);
 
+                // Verifica se a forma de pagamento do Asaas está habilitada na fatura
                 if (in_array(CONNECT_ASAAS_MODULE_NAME, $allowed_payment_modes)) {
 
-                    // Remover este comentário
+                    // Cria cobrança no Asaas
                     $billet = $CI->asaas_gateway->charge_billet($invoice);
                     if (isset($billet['id'])) {
-                        $data = array(
+                        $data = [
                             'asaas_cobranca_id' => $billet['id'],
-                        );
+                        ];
                         $CI->db->where('id', $invoice_id);
                         $CI->db->update(db_prefix() . 'invoices', $data);
                         $CI->invoices_model->log_invoice_activity($invoice->id, 'Cobrança adicionada com sucesso ao Asaas. Asaas ID: ' . $billet['id']);
                     }
 
+                    // LOG de início de criação da nota fiscal
                     $CI->load->library('connect_asaas/invoice');
                     $CI->load->library('connect_asaas/base_api');
                     $CI->invoices_model->log_invoice_activity($invoice->id, 'Início da criação da nota fiscal');
-                    // Início Criação da Nota Fiscal
-                    $clientid                           = $invoice->clientid;
 
-                    // $asaas_invoice_municipalServiceCode = get_option('asaas_invoice_municipalServiceCode');
+                    // Recupera dados necessários
+                    $clientid               = $invoice->clientid;
+                    $asaas_invoice_ir       = get_option('asaas_invoice_ir');
+                    $asaas_invoice_inss     = get_option('asaas_invoice_inss');
+                    $asaas_invoice_csll     = get_option('asaas_invoice_csll');
+                    $asaas_invoice_cofins   = get_option('asaas_invoice_cofins');
+                    $asaas_invoice_iss      = get_option('asaas_invoice_iss');
+                    $api_key                = $CI->base_api->getApiKey();
+                    $api_url                = $CI->base_api->getUrlBase();
 
-                    $asaas_invoice_ir                   = get_option('asaas_invoice_ir');
+                    // ----------------------------------------------------------------------------
+                    // NOVA LÓGICA DE CHECAGEM DA CONFIGURAÇÃO DE EMISSÃO POR CLIENTE OU GLOBAL
+                    // ----------------------------------------------------------------------------
 
-                    $asaas_invoice_inss                 = get_option('asaas_invoice_inss');
+                    // Busca se o cliente possui configuração de emissão de NF específica
+                    $CI->db->select('value');
+                    $CI->db->from(db_prefix() . 'customfieldsvalues');
+                    // relid deve ser igual ao clientid da tblinvoices
+                    $CI->db->where('relid', $clientid);
+                    $query  = $CI->db->get();
+                    $result = $query->row();
 
-                    $asaas_invoice_csll                 = get_option('asaas_invoice_csll');
+                    // Define variável padrão
+                    $isCriarNotaFiscal = false;
 
-                    $asaas_invoice_cofins               = get_option('asaas_invoice_cofins');
+                    if ($result) {
+                        // Se encontrou algum valor específico para este cliente
+                        $valorConfig = trim($result->value);
 
-                    $asaas_invoice_iss                  = get_option('asaas_invoice_iss');
+                        if ($valorConfig === 'Emitir na criação da fatura') {
+                            // Emitir NFSe imediatamente
+                            $isCriarNotaFiscal = true;
 
-                    $api_key                            = $CI->base_api->getApiKey();
+                        } elseif ($valorConfig === 'Emissão avulsa' || $valorConfig === 'Emitir na confirmação de pagamento') {
+                            // Nada acontece
+                            $isCriarNotaFiscal = false;
 
-                    $api_url                            = $CI->base_api->getUrlBase();
-
-
-                    // Se is_criacao_fatura for falso, então, deve verificar o status global de asaas_invoice_on_event
-                    $isCriacaoFatura     = is_criacao_fatura($clientid);
-                    $asaasInvoiceOnEvent = get_option('asaas_invoice_on_event');
-                    $isCriarNotaFiscal   = false;
-
-                    if (is_emissao_empty($clientid)) {
-                        $isCriarNotaFiscal = $asaasInvoiceOnEvent == 1;
-                    } else {
-                        if ($asaasInvoiceOnEvent == 1) {
-                            $isCriarNotaFiscal = $isCriacaoFatura && !is_emissao_avulsa($clientid) && !is_confirmacao_pagamento($clientid);
                         } else {
-                            $isCriarNotaFiscal = $isCriacaoFatura;
+                            // Caso o valor seja diferente dos três acima,
+                            // verifica a configuração global asaas_invoice_on_event
+                            $asaasInvoiceOnEvent = get_option('asaas_invoice_on_event');
+                            $isCriarNotaFiscal   = ($asaasInvoiceOnEvent == 1);
                         }
+
+                    } else {
+                        // Se não encontrou registro na tabela customfieldsvalues
+                        // então olha a config global asaas_invoice_on_event
+                        $asaasInvoiceOnEvent = get_option('asaas_invoice_on_event');
+                        $isCriarNotaFiscal   = ($asaasInvoiceOnEvent == 1);
                     }
 
-                    $CI->invoices_model->log_invoice_activity($invoice->id, 'Pode criar NFSe na criação:' . $isCriarNotaFiscal);
+                    // Log para verificar se vai criar NF ou não
+                    $CI->invoices_model->log_invoice_activity($invoice->id, 'Pode criar NFSe na criação: ' . ($isCriarNotaFiscal ? 'SIM' : 'NÃO'));
 
+                    // Se estiver autorizado a criar a NFSe
                     if ($isCriarNotaFiscal) {
 
+                        // Prossegue com a emissão
                         $client = $CI->clients_model->get($clientid);
 
+                        // Descrição
                         $description    = $CI->asaas_gateway->getSetting('description');
-
                         $invoice_number = $invoice->prefix . str_pad($invoice->number, 6, "0", STR_PAD_LEFT);
-
                         $description    = str_replace("{invoice_number}", $invoice_number, $description);
 
-                        $document       = str_replace('/', '', str_replace('-', '', str_replace('.', '', $client->vat)));
-
-
-                        $email = get_custom_field_value($client->userid, 'customers_email_principal', 'customers') ??
-                            get_custom_field_value($client->userid, 'customers_e_mail_financeiro', 'customers');
-
-                        $addressNumber = get_custom_field_value($client->userid, 'customers_numero', 'customers') ??
-                            get_custom_field_value($client->userid, 'customers_numero_endereco', 'customers');
-
+                        // Dados do cliente
+                        $document   = str_replace(['/', '-', '.'], '', $client->vat);
+                        $email      = get_custom_field_value($client->userid, 'customers_email_principal', 'customers')
+                                      ?? get_custom_field_value($client->userid, 'customers_e_mail_financeiro', 'customers');
+                        $addressNum = get_custom_field_value($client->userid, 'customers_numero', 'customers')
+                                      ?? get_custom_field_value($client->userid, 'customers_numero_endereco', 'customers');
                         $complement = get_custom_field_value($client->userid, 'customers_complemento', 'customers');
+                        $postalCode = str_replace(['-', '.'], '', $client->zip);
 
-                        $document       = str_replace('/', '', str_replace('-', '', str_replace('.', '', $client->vat)));
-
-                        $postalCode     = str_replace('-', '', str_replace('.', '', $client->zip));
-
-                        $customer       = $CI->invoice->search_cliente($document);
-
+                        // Verifica se o cliente já existe no Asaas
+                        $customer = $CI->invoice->search_cliente($document);
                         if ($customer['totalCount'] == "0") {
-
+                            // Cria se não existir
                             $post_data = json_encode([
                                 "name"                 => $client->company,
                                 "email"                => $email,
                                 "cpfCnpj"              => $document,
                                 "postalCode"           => $postalCode,
                                 "address"              => $client->address,
-                                "addressNumber"        => $addressNumber,
-                                "complement"           => "",
+                                "addressNumber"        => $addressNum,
+                                "complement"           => $complement ?? '',
                                 "phone"                => $client->phonenumber,
                                 "mobilePhone"          => $client->phonenumber,
                                 "externalReference"    => $client->userid,
                                 "notificationDisabled" => boolval(get_option('paymentmethod_connect_asaas_disable_charge_notification')),
-                                'complement'           => $complement
                             ]);
 
                             $cliente_create = $CI->asaas_gateway->create_customer($api_url, $api_key, $post_data);
                             $cliente_id = $cliente_create['id'];
                             log_activity('Cliente cadastrado no Asaas [Cliente ID: ' . $cliente_id . ']');
+
                         } else {
-                            // se existir recupera os dados para cobranca
+                            // Se já existir, pega o ID
                             $cliente_id = $customer['data'][0]['id'];
                         }
 
+                        // Recupera configuração de serviço municipal
                         $municipal_service_default = json_decode(get_option('municipal_service_default')) ?? '';
+                        $parts                     = explode(' - ', $municipal_service_default->service_name, 2);
+                        $municipalServiceCode      = preg_replace("/\D+/", "", trim($parts[0]));
+                        $municipalServiceName      = trim($parts[1]);
 
-                        $parts                      = explode(' - ', $municipal_service_default->service_name, 2);
-
-                        $municipalServiceCode       = preg_replace("/\D+/", "", trim($parts[0]));
-                        $municipalServiceName       = trim($parts[1]);
-
+                        // Se encontrar pipe (|)
                         $pipePosition = strpos($municipalServiceCode, '|');
-
                         if ($pipePosition !== false) {
                             $municipalServiceCode = trim(substr($municipalServiceCode, 0, $pipePosition));
                         } else {
                             $municipalServiceCode = trim($municipalServiceCode);
                         }
 
+                        // Monta JSON para criar NF
                         $post_data = json_encode([
-                            "customer"           => $cliente_id,
-                            "serviceDescription" => $description,
-                            "value"              => $invoice->total,
-                            "effectiveDate"      => date('Y-m-d'),
-                            "externalReference"  => $invoice->hash,
-                            "taxes"              => [
+                            "customer"             => $cliente_id,
+                            "serviceDescription"   => $description,
+                            "value"                => $invoice->total,
+                            "effectiveDate"        => date('Y-m-d'),
+                            "externalReference"    => $invoice->hash,
+                            "taxes"                => [
                                 "retainIss" => null,
                                 "iss"       => $asaas_invoice_iss,
                                 "cofins"    => $asaas_invoice_cofins,
@@ -328,22 +345,22 @@ function asaas_after_invoice_added($invoice_id)
                             "municipalServiceName" => $municipalServiceName
                         ]);
 
-                        $CI->invoices_model->log_invoice_activity($invoice->id, '[Asaas - NFSe] - Corpo da requisição para criação:' . $post_data);
+                        $CI->invoices_model->log_invoice_activity($invoice->id, '[Asaas - NFSe] - Corpo da requisição para criação: ' . $post_data);
 
+                        // Cria a NFSe via API
                         $create_invoice = $CI->invoice->create_invoice($post_data);
 
-                        $CI->invoices_model->log_invoice_activity($invoice->id, '[Asaas - NFSe] - NF criada com sucesso:' . ($create_invoice));
+                        $CI->invoices_model->log_invoice_activity($invoice->id, '[Asaas - NFSe] - NF criada com sucesso: ' . ($create_invoice));
 
                         $create_invoice = json_decode($create_invoice, true);
                     }
-
-                    // Fim
                 }
             }
         }
         return $invoice_id;
     }
 }
+
 
 function asaas_after_invoice_updated($invoice)
 {
@@ -510,6 +527,7 @@ function asaas_before_invoice_deleted($id)
 
 function asaas_invoice_after_payment_added($insert_id)
 {
+    // Carrega opções do módulo
     $asaas_invoice_on_event             = get_option('asaas_invoice_on_event');
     $asaas_invoice_municipalServiceCode = get_option('asaas_invoice_municipalServiceCode');
     $asaas_invoice_ir                   = get_option('asaas_invoice_ir');
@@ -518,6 +536,7 @@ function asaas_invoice_after_payment_added($insert_id)
     $asaas_invoice_cofins               = get_option('asaas_invoice_cofins');
     $asaas_invoice_iss                  = get_option('asaas_invoice_iss');
 
+    // Instâncias e carregamentos
     $CI = &get_instance();
     $CI->load->model('invoices_model');
     $CI->load->model('payments_model');
@@ -527,121 +546,148 @@ function asaas_invoice_after_payment_added($insert_id)
     $CI->load->library('connect_asaas/invoice');
     $CI->load->library('connect_asaas/base_api');
 
+    // Configurações e variáveis
     $update_payment_invoice_asaas = $CI->asaas_gateway->getSetting('update_payment_invoice_asaas');
     $api_key                      = $CI->base_api->getApiKey();
     $api_url                      = $CI->base_api->getUrlBase();
-    $payment                      = $CI->payments_model->get($insert_id);
 
+    // Obtem dados do pagamento inserido
+    $payment = $CI->payments_model->get($insert_id);
+
+    // Se o pagamento foi via Asaas e se configurado para atualizar via Asaas
     if ($payment->paymentmode == 'connect_asaas' && $update_payment_invoice_asaas) {
-        // set log sales
+
+        // Log para indicar o recebimento via Asaas
         $CI->invoices_model->log_invoice_activity($payment->invoiceid, '[ASAAS] - Pagamento recebido via Asaas [Pagamento ID: ' . $insert_id . ']');
 
+        // Busca a fatura e dados essenciais
         $invoice = $CI->invoices_model->get($payment->invoiceid);
-
-        $amount           = $payment->amount;
-
-        $date             = $payment->date;
+        $amount  = $payment->amount;
+        $date    = $payment->date;
 
         $asass_invoice_id = $invoice->asaas_cobranca_id;
+        $body_params      = [
+            'paymentDate'   => $date,
+            'value'         => $amount,
+            'notifyCustomer'=> true
+        ];
 
-        $body_params      = ['paymentDate' => $date, 'value' => $amount, 'notifyCustomer' => true];
-
+        // Verifica se houve POST de confirmação com data de pagamento (pagamento em dinheiro, por ex.)
         $post = $CI->input->post();
-
         if (isset($post['date']) && !empty($post)) {
-            $response         = $CI->asaas_gateway->receive_in_cash($asass_invoice_id, $body_params);
+            $response = $CI->asaas_gateway->receive_in_cash($asass_invoice_id, $body_params);
             if (isset($response['status']) && $response['status'] == 'RECEIVED_IN_CASH') {
                 log_activity('Pagamento recebido em dinheiro [Fatura ID: ' . $asass_invoice_id . ']');
             }
         }
 
-        // se is_confirmacao_pagamento for igual a falso.
-        $clientid            = $invoice->clientid;
-        $isCriacaoFatura     = is_confirmacao_pagamento($clientid);
-        $criarNfse   = false;
+        //------------------------------------------------------------------------------
+        // Nova lógica de checagem: "Emitir na confirmação de pagamento"
+        //------------------------------------------------------------------------------
 
-        if (is_emissao_empty($clientid)) {
-            $criarNfse = 2;
-            $asaas_invoice_on_event == 2;
-        } else {
-            if ($asaas_invoice_on_event == 2) {
-                $criarNfse = $isCriacaoFatura && !is_emissao_avulsa($clientid) && !is_criacao_fatura($clientid);
+        $clientid = $invoice->clientid;
+
+        // 1) Obter configuração na tblcustomfieldsvalues
+        //    - Se value = "Emitir na confirmação de pagamento" => emitir
+        //    - Se value = "Emissão avulsa" ou "Emitir na criação da fatura" => não emitir
+        //    - Se não existir NENHUM registro ou valor não for nenhum dos citados => checar global
+        $CI->db->select('value');
+        $CI->db->from(db_prefix() . 'customfieldsvalues');
+        $CI->db->where('relid', $clientid); // relid deve ser igual ao clientid da fatura
+        $query          = $CI->db->get();
+        $resultadoCampo = $query->row();
+
+        $criarNfse = false;
+
+        if ($resultadoCampo) {
+            // Se existe configuração específica no campo personalizado
+            $valorConfig = trim($resultadoCampo->value);
+
+            if ($valorConfig === 'Emitir na confirmação de pagamento') {
+                // Emitir
+                $criarNfse = true;
+
+            } elseif ($valorConfig === 'Emissão avulsa' || $valorConfig === 'Emitir na criação da fatura') {
+                // Não emitir
+                $criarNfse = false;
+
             } else {
-                $criarNfse = $isCriacaoFatura;
+                // Valor diferente dos três, checa global
+                // Global = 2 => emitir
+                $criarNfse = ($asaas_invoice_on_event == 2);
             }
+        } else {
+            // Não existe registro para este clientid, checar global
+            // Global = 2 => emitir
+            $criarNfse = ($asaas_invoice_on_event == 2);
         }
 
-        $CI->invoices_model->log_invoice_activity(
-            $payment->invoiceid,
-            '[ASAAS] - Pagamento recebido via Asaas [Criar NFSE: ' . $criarNfse . ']'
-        );
+        // Log para checar a decisão final
+        $CI->invoices_model->log_invoice_activity($payment->invoiceid, '[ASAAS] - Pagamento recebido via Asaas [Criar NFSE: ' . ($criarNfse ? 'SIM' : 'NÃO') . ']');
+
+        //------------------------------------------------------------------------------
+        // Caso esteja habilitado, prossegue com a emissão da NFSe
+        //------------------------------------------------------------------------------
 
         if ($criarNfse) {
 
+            // Coleta dados do cliente
             $client = $CI->clients_model->get($clientid);
 
+            // Descrição que irá para a NF
             $description    = $CI->asaas_gateway->getSetting('description');
-
             $invoice_number = $invoice->prefix . str_pad($invoice->number, 6, "0", STR_PAD_LEFT);
-
             $description    = str_replace("{invoice_number}", $invoice_number, $description);
 
-            $document       = str_replace('/', '', str_replace('-', '', str_replace('.', '', $client->vat)));
-
-            $email = get_custom_field_value($client->userid, 'customers_email_principal', 'customers') ??
-                get_custom_field_value($client->userid, 'customers_e_mail_financeiro', 'customers');
-
-            $addressNumber = get_custom_field_value($client->userid, 'customers_numero', 'customers') ??
-                get_custom_field_value($client->userid, 'customers_numero_endereco', 'customers');
-
+            // Documentos e complementos
+            $document   = str_replace(['/', '-', '.'], '', $client->vat);
+            $email      = get_custom_field_value($client->userid, 'customers_email_principal', 'customers')
+                          ?? get_custom_field_value($client->userid, 'customers_e_mail_financeiro', 'customers');
+            $addressNum = get_custom_field_value($client->userid, 'customers_numero', 'customers')
+                          ?? get_custom_field_value($client->userid, 'customers_numero_endereco', 'customers');
             $complement = get_custom_field_value($client->userid, 'customers_complemento', 'customers');
+            $postalCode = str_replace(['-', '.'], '', $client->zip);
 
-            $document       = str_replace('/', '', str_replace('-', '', str_replace('.', '', $client->vat)));
-
-            $postalCode     = str_replace('-', '', str_replace('.', '', $client->zip));
-
-            $customer       = $CI->invoice->search_cliente($document);
-
+            // Verifica existência do cliente no Asaas
+            $customer = $CI->invoice->search_cliente($document);
             if ($customer['totalCount'] == "0") {
-
+                // Cria se não existir
                 $post_data = json_encode([
                     "name"                 => $client->company,
                     "email"                => $email,
                     "cpfCnpj"              => $document,
                     "postalCode"           => $postalCode,
                     "address"              => $client->address,
-                    "addressNumber"        => $addressNumber,
-                    "complement"           => "",
+                    "addressNumber"        => $addressNum,
+                    "complement"           => $complement ?? '',
                     "phone"                => $client->phonenumber,
                     "mobilePhone"          => $client->phonenumber,
                     "externalReference"    => $client->userid,
                     "notificationDisabled" => boolval(get_option('paymentmethod_connect_asaas_disable_charge_notification')),
-                    'complement'           => $complement
                 ]);
 
                 $cliente_create = $CI->asaas_gateway->create_customer($api_url, $api_key, $post_data);
                 $cliente_id = $cliente_create['id'];
                 log_activity('Cliente cadastrado no Asaas [Cliente ID: ' . $cliente_id . ']');
             } else {
-                // se existir recupera os dados para cobranca
+                // Se já existir, pega o ID
                 $cliente_id = $customer['data'][0]['id'];
             }
 
+            // Recupera configuração de serviço municipal
             $municipal_service_default = json_decode(get_option('municipal_service_default')) ?? '';
+            $parts = explode(' - ', $municipal_service_default->service_name, 2);
 
-            $parts                      = explode(' - ', $municipal_service_default->service_name, 2);
-
-            $municipalServiceCode       = preg_replace("/\D+/", "", trim($parts[0]));
-            $municipalServiceName       = trim($parts[1]);
-
-            $pipePosition = strpos($municipalServiceCode, '|');
-
+            $municipalServiceCode = preg_replace("/\D+/", "", trim($parts[0]));
+            $municipalServiceName = trim($parts[1]);
+            $pipePosition         = strpos($municipalServiceCode, '|');
             if ($pipePosition !== false) {
                 $municipalServiceCode = trim(substr($municipalServiceCode, 0, $pipePosition));
             } else {
                 $municipalServiceCode = trim($municipalServiceCode);
             }
 
+            // Monta dados para criação da NFSe
             $post_data = json_encode([
                 "customer"           => $cliente_id,
                 "serviceDescription" => $description,
@@ -657,22 +703,36 @@ function asaas_invoice_after_payment_added($insert_id)
                     "ir"        => $asaas_invoice_ir,
                     "pis"       => null
                 ],
+                // Aqui usando 'municipalServiceId' vindo de $asaas_invoice_municipalServiceCode.
+                // Caso seja necessário usar o 'municipalServiceCode' propriamente, faça o ajuste.
                 "municipalServiceId"   => $asaas_invoice_municipalServiceCode,
                 "municipalServiceName" => $municipalServiceName
             ]);
-            // set sales logs
-            $CI->invoices_model->log_invoice_activity($payment->invoiceid, '[Asaas - NFSe] - Emitir no recebimento. Corpo da requisição para criação:' . $post_data);
 
+            // Log para depuração da criação
+            $CI->invoices_model->log_invoice_activity(
+                $payment->invoiceid,
+                '[Asaas - NFSe] - Emitir no recebimento. Corpo da requisição para criação:' . $post_data
+            );
+
+            // Solicita emissão
             $create_invoice = $CI->invoice->create_invoice($post_data);
 
-            $CI->invoices_model->log_invoice_activity($payment->invoiceid, '[Asaas - NFSe] - Emitir no recebimento. Resposta da emissão:' . $create_invoice);
+            // Log do retorno
+            $CI->invoices_model->log_invoice_activity(
+                $payment->invoiceid,
+                '[Asaas - NFSe] - Emitir no recebimento. Resposta da emissão:' . $create_invoice
+            );
 
+            // Decodifica se precisar tratar o retorno
             $create_invoice = json_decode($create_invoice, true);
         }
 
+        // Retorna o ID do pagamento
         return $insert_id;
     }
 }
+
 
 function asaas_invoice_init_menu_items()
 {
@@ -789,7 +849,7 @@ function asaas_invoice_admin_js()
 function asaas_invoice_add_settings_tab()
 {
     $CI = &get_instance();
-    $CI->app->add_settings_section('asaas-nf-settings', [
+    $CI->app_tabs->add_settings_tab('asaas-nf-settings', [
         'name' => 'Emissão de notas ASAAS',
         'view' => 'connect_asaas/invoice/config',
         'position' => 55,
