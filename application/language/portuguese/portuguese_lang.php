@@ -551,7 +551,7 @@ $lang['als_clients']   = 'Clientes';
 $lang['als_leads']     = 'Leads';
 
 $lang['als_contracts'] = 'Contratos';
-$lang['als_sales']     = 'Vendas';
+$lang['als_sales']     = 'Financeiro';
 
 $lang['als_staff'] = 'Staff';
 $lang['als_tasks'] = 'Tarefas';
@@ -559,7 +559,7 @@ $lang['als_kb']    = 'Base de Conhecimento';
 
 $lang['als_media']                 = 'Mídia';
 $lang['als_reports']               = 'Relatórios';
-$lang['als_reports_sales_submenu'] = 'Vendas';
+$lang['als_reports_sales_submenu'] = 'Financeiro';
 $lang['als_reports_leads_submenu'] = 'Leads';
 $lang['als_kb_articles_submenu']   = 'Artigos BC';
 $lang['als_utilities']             = 'Utilidades';
@@ -3034,7 +3034,7 @@ $lang['last_week']                                       = 'Semana passada';
 $lang['this_month']                                      = 'Este mês';
 $lang['last_month']                                      = 'Último mês';
 $lang['no_description_project']                          = 'Nenhuma descrição para este projeto';
-$lang['sales_string']                                    = 'Vendas';
+$lang['sales_string']                                    = 'Financeiro';
 $lang['no_project_members']                              = 'Nenhum membro para este projeto';
 $lang['search_by_tags']                                  = 'Use # + tagname para pesquisar por tags';
 $lang['project_status_5']                                = 'Cancelado';
