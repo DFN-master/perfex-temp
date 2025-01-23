@@ -72,6 +72,7 @@ $lang['client_lastname']                      = 'Sobrenome';
 $lang['client_email']                         = 'E-mail';
 $lang['client_company']                       = 'Empresa';
 $lang['client_vat_number']                    = 'CPF/CNPJ';
+$lang['client_process_number']                = 'Número do Processo';
 $lang['client_address']                       = 'Endereço';
 $lang['client_city']                          = 'Cidade';
 $lang['client_postal_code']                   = 'CEP';
