@@ -41,7 +41,7 @@ function add_default_theme_menu_items()
                     'icon'     => 'fa-regular fa-user',
                 ]);
     } else {
-        if (has_contact_permission('invoices')) {
+        if (has_contact_permission('projects')) {
             add_theme_menu_item('projects', [
                     'name'     => _l('clients_nav_projects'),
                     'href'     => site_url('clients/projects'),
