@@ -229,7 +229,7 @@ function service_management_module_init_menu_items()
 	 */
 	function init_service_management_portal_menu()
 	{
-		$item ='';
+		/* $item ='';
 		if(is_client_logged_in()){
 			if(get_option('service_management_display_on_portal') == 1){
 				$item .= '<li class="customers-nav-item">';
@@ -238,7 +238,7 @@ function service_management_module_init_menu_items()
 				$item .= '</li>';
 			}
 		}
-		echo new_html_entity_decode($item);
+		echo new_html_entity_decode($item); */
 
 	}
 
