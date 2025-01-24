@@ -18,6 +18,13 @@ function no_index_customers_area()
 
 function add_default_theme_menu_items()
 {
+/*     if (is_knowledge_base_viewable(true)) {
+        add_theme_menu_item('knowledge-base', [
+            'name'     => _l('clients_nav_kb'),
+            'href'     => site_url('knowledge-base'),
+            'position' => 5,
+        ]);
+    } */
     if (!is_client_logged_in() && get_option('allow_registration') == 1) {
         add_theme_menu_item('register', [
                 'name'     => _l('clients_nav_register'),
@@ -48,24 +55,24 @@ function add_default_theme_menu_items()
                     'position' => 15,
                 ]);
         }
-        if (has_contact_permission('contracts')) {
+/*         if (has_contact_permission('contracts')) {
             add_theme_menu_item('contracts', [
                     'name'     => _l('clients_nav_contracts'),
                     'href'     => site_url('clients/contracts'),
                     'position' => 20,
                 ]);
-        }
-        if (has_contact_permission('estimates')) {
+        } */
+        /* if (has_contact_permission('estimates')) {
             add_theme_menu_item('estimates', [
                     'name'     => _l('clients_nav_estimates'),
                     'href'     => site_url('clients/estimates'),
                     'position' => 25,
                 ]);
-        }
+        } */
         if (has_contact_permission('proposals')) {
             add_theme_menu_item('proposals', [
                     'name'     => _l('clients_nav_proposals'),
-                    'href'     => site_url('clients/proposals'),
+                    'href'     => site_url('clients/files'),
                     'position' => 30,
                 ]);
         }
@@ -76,13 +83,13 @@ function add_default_theme_menu_items()
                     'position' => 40,
                 ]);
         }
-        if (has_contact_permission('support')) {
+        /* if (has_contact_permission('support')) {
             add_theme_menu_item('support', [
                     'name'     => _l('clients_nav_support'),
                     'href'     => site_url('clients/tickets'),
                     'position' => 45,
                 ]);
-        }
+        } */
     }
 }
 

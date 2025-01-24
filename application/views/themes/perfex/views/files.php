@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <h4 class="tw-mt-0 tw-font-bold tw-text-lg tw-text-neutral-700 section-heading section-heading-files">
-    <?= _l('customer_profile_files'); ?>
+    <?= _l('Propostas de Acordo'); ?>
 </h4>
 <?php hooks()->do_action('after_customers_area_files_heading'); ?>
 <div class="panel_s">
@@ -21,7 +21,7 @@
         <?php if (count($files) == 0) { ?>
         <hr class="hr-panel-heading" />
         <p class="tw-text-neutral-500">
-            <?= _l('no_files_found'); ?>
+            <?= _l('Nenhuma Proposta encontrada.'); ?>
         </p>
         <?php } else { ?>
         <table class="table dt-table mtop15 table-files" data-order-col="1" data-order-type="desc">

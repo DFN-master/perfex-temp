@@ -21,7 +21,7 @@
             if (is_client_logged_in() && $subMenuEnabled && ! isset($knowledge_base_search)) { ?>
                 <ul class="submenu customer-top-submenu">
                     <?php hooks()->do_action('before_customers_area_sub_menu_start'); ?>
-                    <li class="customers-top-submenu-files">
+                    <!-- <li class="customers-top-submenu-files">
                         <a href="<?= site_url('clients/files'); ?>"
                             class="tw-inline-flex tw-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -33,7 +33,7 @@
                                 <?= _l('customer_profile_files'); ?>
                             </span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="customers-top-submenu-calendar">
                         <a href="<?= site_url('clients/calendar'); ?>"
                             class="tw-inline-flex tw-items-center">
