@@ -995,7 +995,7 @@ function fixed_equipment_module_init_client_menu_items()
 		if(fe_get_status_modules('omni_sales')){
 			$add_tooltip = 'data-placement="bottom" data-toggle="tooltip" data-title="'._l('fe_fixed_equipment').'"';                
 		}
-		echo '<li class="customers-nav-item-Insurances-plan">
+		/* echo '<li class="customers-nav-item-Insurances-plan">
 		<a href="'.site_url('fixed_equipment/fixed_equipment_client/view_cart').'" '.$add_tooltip.'>
 		<i class="fa fa-shopping-cart"></i>
 		<span class="text-white fe_qty_total"></span>
@@ -1006,9 +1006,9 @@ function fixed_equipment_module_init_client_menu_items()
 		<a href="'.site_url('fixed_equipment/fixed_equipment_client/index/1/0/0').'" '.$add_tooltip.'>
 		<i class="fa fa-tags"></i>
 		</a>
-		</li>'; 
+		</li>'; */ 
 
-		if(is_client_logged_in()){
+		/* if(is_client_logged_in()){
 			echo '<li class="customers-nav-item-Insurances-plan">
 			<a href="'.site_url('fixed_equipment/fixed_equipment_client/order_list').'" '.$add_tooltip.'>'._l('order_list').'
 			</a>
@@ -1017,7 +1017,7 @@ function fixed_equipment_module_init_client_menu_items()
 			<a href="'.site_url('fixed_equipment/fixed_equipment_client/client_assets').'" '.$add_tooltip.'>'._l('fe_assets').'
 			</a>
 			</li>';
-		} 
+		}  */
 	}elseif(get_option('fe_show_customer_asset') == 1){
 		if(is_client_logged_in()){
 			$add_tooltip = 'data-placement="bottom" data-toggle="tooltip" data-title="'._l('fe_assets').'"';                
