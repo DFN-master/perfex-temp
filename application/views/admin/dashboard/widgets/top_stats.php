@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="progress tw-mb-0 tw-mt-4 progress-bar-mini">
-                    <div class="progress-bar progress-bar-danger no-percent-text not-dynamic" role="progressbar"
+                    <div class="progress-bar progress-bar-info no-percent-text not-dynamic" role="progressbar"
                         aria-valuenow="<?php echo e($percent_total_invoices_awaiting_payment); ?>" aria-valuemin="0"
                         aria-valuemax="100" style="width: 0%"
                         data-percent="<?php echo e($percent_total_invoices_awaiting_payment); ?>">
