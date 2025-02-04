@@ -88,7 +88,7 @@ switch (count(array_filter([$canViewInvoices, $canViewEstimates, $canViewProposa
                             <?php $percent_data = get_invoices_percent_by_status(1); ?>
                             <div class="col-md-12 text-stats-wrapper">
                                 <a href="<?php echo admin_url('invoices/list_invoices?status=1'); ?>"
-                                    class="text-danger mbot15 inline-block">
+                                    class="text-info mbot15 inline-block">
                                     <span class="_total bold"><?php echo e($percent_data['total_by_status']); ?></span>
                                     <?php echo format_invoice_status(1, '', false); ?>
                                 </a>
@@ -96,7 +96,7 @@ switch (count(array_filter([$canViewInvoices, $canViewEstimates, $canViewProposa
                             <div class="col-md-12 text-right progress-finance-status tw-text-neutral-400">
                                 <?php echo e($percent_data['percent']); ?>%
                                 <div class="progress no-margin progress-bar-mini">
-                                    <div class="progress-bar progress-bar-danger no-percent-text not-dynamic"
+                                    <div class="progress-bar progress-bar-info no-percent-text not-dynamic"
                                         role="progressbar" aria-valuenow="<?php echo e($percent_data['percent']); ?>"
                                         aria-valuemin="0" aria-valuemax="100" style="width: 0%"
                                         data-percent="<?php echo e($percent_data['percent']); ?>">

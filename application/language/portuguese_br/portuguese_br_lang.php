@@ -24,7 +24,7 @@ $lang['cant_delete_default']  = 'Não é possível deletar o padrão %s';
 
 # Invoice General
 $lang['invoice_status_paid']                = 'Pago';
-$lang['invoice_status_unpaid']              = 'Não pago';
+$lang['invoice_status_unpaid']              = 'Recorrente';
 $lang['invoice_status_overdue']             = 'Vencido';
 $lang['invoice_status_not_paid_completely'] = 'Parcialmente Pago';
 
