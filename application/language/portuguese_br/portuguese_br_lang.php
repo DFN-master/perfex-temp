@@ -1567,7 +1567,7 @@ $lang['bulk_export_include_tag_help']  = 'Ex. Original ou Cópia. O tag será mo
 
 # Version 1.0.7
 ## Customers - portal
-$lang['clients_nav_proposals'] = 'Propostas de Acordo';
+$lang['clients_nav_proposals'] = 'Propostas de Acordo/Arquivos do Processo';
 $lang['clients_nav_support']   = 'Suporte';
 # General
 $lang['more']            = 'Mais';
