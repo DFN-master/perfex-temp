@@ -1451,6 +1451,11 @@ $lang['customer_map']                                          = 'Mapa';
 $lang['set_password_email_sent_to_client']                     = 'E-mail para definir a senha é enviada com sucesso para o cliente';
 $lang['set_password_email_sent_to_client_and_profile_updated'] = 'Perfil atualizado e e-mail enviado para definir a senha é enviada com sucesso para o cliente';
 $lang['customer_attachments']                                  = 'Arquivos';
+$lang['customer_attachments_1']                                  = 'Processo 1';
+$lang['customer_attachments_2']                                  = 'Processo 2';
+$lang['customer_attachments_3']                                  = 'Processo 3';
+$lang['customer_attachments_4']                                  = 'Processo 4';
+$lang['customer_attachments_5']                                  = 'Processo 5';
 $lang['customer_longitude']                                    = 'Longitude (Google Maps)';
 $lang['customer_latitude']                                     = 'Latitude (Google Maps)';
 

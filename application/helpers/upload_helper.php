@@ -579,7 +579,7 @@ function handle_sales_attachments($rel_id, $rel_type)
  * @param  mixed $clientid Client ID to add attachments
  * @return array  - Result values
  */
-function handle_client_attachments_upload($id, $customer_upload = false)
+function handle_client_attachments_upload($id, $n, $customer_upload = false)
 {
     $hookData = hooks()->apply_filters('before_handle_client_attachment', [
         'customer_id' => $id,
@@ -642,7 +642,7 @@ function handle_client_attachments_upload($id, $customer_upload = false)
                         $attachment['visible_to_customer'] = 1;
                     }
 
-                    $CI->misc_model->add_attachment_to_database($id, 'customer', $attachment);
+                    $CI->misc_model->add_attachment_to_database($id, 'customer' . $n, $attachment);
                     $totalUploaded++;
                 }
             }

@@ -532,7 +532,7 @@ class fixed_equipment_client extends ClientsController
 				$data['customer_admins'] = $this->clients_model->get_admins($id);
 
 			} elseif ($group == 'attachments') {
-				$data['attachments'] = get_all_customer_attachments($id);
+				$data['attachments'] = get_all_customer_attachments($id, '');
 			} elseif ($group == 'vault') {
 
 

@@ -152,7 +152,15 @@ class Clients extends AdminController
                 $data['customer_groups'] = $this->clients_model->get_customer_groups($id);
                 $data['customer_admins'] = $this->clients_model->get_admins($id);
             } elseif ($group == 'attachments') {
-                $data['attachments'] = get_all_customer_attachments($id);
+                $data['attachments'] = get_all_customer_attachments_n($id, '');
+            } elseif ($group == 'attachments-2') {
+                $data['attachments'] = get_all_customer_attachments_n($id, '-2');
+            } elseif ($group == 'attachments-3') {
+                $data['attachments'] = get_all_customer_attachments_n($id, '-3');
+            } elseif ($group == 'attachments-4') {
+                $data['attachments'] = get_all_customer_attachments_n($id, '-4');
+            } elseif ($group == 'attachments-5') {
+                $data['attachments'] = get_all_customer_attachments_n($id, '-5');
             } elseif ($group == 'vault') {
                 $data['vault_entries'] = hooks()->apply_filters('check_vault_entries_visibility', $this->clients_model->get_vault_entries($id));
 
@@ -599,9 +607,9 @@ class Clients extends AdminController
         ]);
     }
 
-    public function upload_attachment($id)
+    public function upload_attachment($id, $n)
     {
-        handle_client_attachments_upload($id);
+        handle_client_attachments_upload($id, $n);
     }
 
     public function add_external_attachment()

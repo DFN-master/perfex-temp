@@ -468,6 +468,10 @@ class Client_merge_fields extends App_merge_fields
         }
 
         $fields['{customer_profile_files_admin_link}'] = admin_url('clients/client/' . $client->userid . '?group=attachments');
+        $fields['{customer_profile_files_2_admin_link}'] = admin_url('clients/client/' . $client->userid . '?group=attachments-2');
+        $fields['{customer_profile_files_3_admin_link}'] = admin_url('clients/client/' . $client->userid . '?group=attachments-3');
+        $fields['{customer_profile_files_4_admin_link}'] = admin_url('clients/client/' . $client->userid . '?group=attachments-4');
+        $fields['{customer_profile_files_5_admin_link}'] = admin_url('clients/client/' . $client->userid . '?group=attachments-5');
         $fields['{client_company}']                    = e($client->company, false);
         $fields['{client_phonenumber}']                = e($client->phonenumber);
         $fields['{client_country}']                    = e(get_country_short_name($client->country));

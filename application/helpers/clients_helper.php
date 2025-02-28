@@ -331,7 +331,39 @@ function app_init_customer_profile_tabs()
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('attachments', [
-        'name'     => _l('customer_attachments'),
+        'name'     => _l('customer_attachments_1'),
+        'icon'     => 'fa fa-paperclip',
+        'view'     => 'admin/clients/groups/attachments',
+        'position' => 80,
+        'badge'    => [],
+    ]);
+
+    $CI->app_tabs->add_customer_profile_tab('attachments-2', [
+        'name'     => _l('customer_attachments_2'),
+        'icon'     => 'fa fa-paperclip',
+        'view'     => 'admin/clients/groups/attachments',
+        'position' => 80,
+        'badge'    => [],
+    ]);
+
+    $CI->app_tabs->add_customer_profile_tab('attachments-3', [
+        'name'     => _l('customer_attachments_3'),
+        'icon'     => 'fa fa-paperclip',
+        'view'     => 'admin/clients/groups/attachments',
+        'position' => 80,
+        'badge'    => [],
+    ]);
+
+    $CI->app_tabs->add_customer_profile_tab('attachments-4', [
+        'name'     => _l('customer_attachments_4'),
+        'icon'     => 'fa fa-paperclip',
+        'view'     => 'admin/clients/groups/attachments',
+        'position' => 80,
+        'badge'    => [],
+    ]);
+
+    $CI->app_tabs->add_customer_profile_tab('attachments-5', [
+        'name'     => _l('customer_attachments_5'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/clients/groups/attachments',
         'position' => 80,
@@ -1225,6 +1257,314 @@ function get_all_customer_attachments($id)
     }
 
     $CI->db->where('rel_id', $id)->where('rel_type', 'customer');
+    $client_main_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+    foreach ($client_main_attachments as &$attachment) {
+        $attachment['total_shares'] = total_rows(db_prefix() . 'shared_customer_files', ['file_id' => $attachment['id']]);
+        $attachment['shared_with']  = $attachment['total_shares'] > 0 ?
+            get_customer_profile_file_sharing(['file_id' => $attachment['id']]) :
+            [];
+
+        $attachment['download_url'] = $attachment_types['customer']['url'] . $attachment[$attachment_types['customer']['download_indicator']];
+        $attachment['upload_path']  = $attachment_types['customer']['upload_path'] . $attachment[$attachment_types['customer']['key_indicator']] . '/' . $attachment['file_name'];
+    }
+
+    $attachments['customer'] = $client_main_attachments;
+
+    return hooks()->apply_filters('all_client_attachments', $attachments, $id);
+}
+
+function get_all_customer_attachments_n($id, $n)
+{
+    $CI = &get_instance();
+
+    $attachments = [];
+
+    $attachment_types = [
+        'invoice' => [
+            'url'                => site_url() . 'download/file/sales_attachment/',
+            'upload_path'        => get_upload_path_by_type('invoice'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'estimate' => [
+            'url'                => site_url() . 'download/file/sales_attachment/',
+            'upload_path'        => get_upload_path_by_type('estimate'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'credit_note' => [
+            'url'                => site_url() . 'download/file/sales_attachment/',
+            'upload_path'        => get_upload_path_by_type('credit_note'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'proposal' => [
+            'url'                => site_url() . 'download/file/sales_attachment/',
+            'upload_path'        => get_upload_path_by_type('proposal'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'contract' => [
+            'url'                => site_url() . 'download/file/contract/',
+            'upload_path'        => get_upload_path_by_type('contract'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'lead' => [
+            'url'                => site_url() . 'download/file/lead_attachment/',
+            'upload_path'        => get_upload_path_by_type('lead'),
+            'download_indicator' => 'id',
+            'key_indicator'      => 'rel_id',
+        ],
+        'task' => [
+            'url'                => site_url() . 'download/file/taskattachment/',
+            'upload_path'        => get_upload_path_by_type('task'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'customer' => [
+            'url'                => site_url() . 'download/file/client/',
+            'upload_path'        => get_upload_path_by_type('customer'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'customer-2' => [
+            'url'                => site_url() . 'download/file/client/',
+            'upload_path'        => get_upload_path_by_type('customer-2'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'customer-3' => [
+            'url'                => site_url() . 'download/file/client/',
+            'upload_path'        => get_upload_path_by_type('customer-3'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'customer-4' => [
+            'url'                => site_url() . 'download/file/client/',
+            'upload_path'        => get_upload_path_by_type('customer-4'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'customer-5' => [
+            'url'                => site_url() . 'download/file/client/',
+            'upload_path'        => get_upload_path_by_type('customer-5'),
+            'download_indicator' => 'attachment_key',
+            'key_indicator'      => 'rel_id',
+        ],
+        'ticket' => [
+            'url'                => site_url() . 'download/file/ticket/',
+            'upload_path'        => get_upload_path_by_type('ticket'),
+            'download_indicator' => 'id',
+            'key_indicator'      => 'ticketid',
+        ],
+        'expense' => [
+            'url'                => site_url() . 'download/file/expense/',
+            'upload_path'        => get_upload_path_by_type('expense'),
+            'download_indicator' => 'rel_id',
+            'key_indicator'      => 'rel_id',
+        ],
+    ];
+
+    foreach ($attachment_types as $type => $settings) {
+        $attachments[$type] = []; // create empty array for each type
+    }
+
+    $can_view_expenses     = staff_can('view', 'expenses');
+    $can_view_own_expenses = staff_can('view_own', 'expenses');
+    if ($can_view_expenses || $can_view_own_expenses) {
+        $CI->db->select('clientid,id')->where('clientid', $id);
+        if (! $can_view_expenses) {
+            $CI->db->where('addedfrom', get_staff_user_id());
+        }
+        $CI->db->from(db_prefix() . 'expenses');
+        $expenses = $CI->db->get()->result_array();
+        $ids      = array_column($expenses, 'id');
+        if (count($ids) > 0) {
+            $CI->db->where_in('rel_id', $ids)->where('rel_type', 'expense');
+            $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+            foreach ($_attachments as $_att) {
+                $_att['download_url'] = $attachment_types['expense']['url'] . $_att[$attachment_types['expense']['download_indicator']];
+                $_att['upload_path']  = $attachment_types['expense']['upload_path'] . $_att[$attachment_types['expense']['key_indicator']] . '/' . $_att['file_name'];
+                array_push($attachments['expense'], $_att);
+            }
+        }
+    }
+
+    if (staff_can('view', 'invoices') || staff_can('view_own', 'invoices') || get_option('allow_staff_view_invoices_assigned') == 1) {
+        $noPermissionQuery = get_invoices_where_sql_for_staff(get_staff_user_id());
+        $CI->db->select('clientid,id')->where('clientid', $id);
+
+        if (! staff_can('view', 'invoices')) {
+            $CI->db->where($noPermissionQuery);
+        }
+
+        $CI->db->from(db_prefix() . 'invoices');
+        $invoices = $CI->db->get()->result_array();
+        $ids      = array_column($invoices, 'id');
+
+        if (! empty($ids)) {
+            $CI->db->where_in('rel_id', $ids)->where('rel_type', 'invoice');
+            $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+            foreach ($_attachments as $_att) {
+                $_att['download_url'] = $attachment_types['invoice']['url'] . $_att[$attachment_types['invoice']['download_indicator']];
+                $_att['upload_path']  = $attachment_types['invoice']['upload_path'] . $_att[$attachment_types['invoice']['key_indicator']] . '/' . $_att['file_name'];
+                array_push($attachments['invoice'], $_att);
+            }
+        }
+    }
+    if (staff_can('view', 'credit_notes') || staff_can('view_own', 'credit_notes')) {
+        $CI->db->select('clientid,id')->where('clientid', $id);
+
+        if (! staff_can('view', 'credit_notes')) {
+            $CI->db->where('addedfrom', get_staff_user_id());
+        }
+
+        $CI->db->from(db_prefix() . 'creditnotes');
+        $credit_notes = $CI->db->get()->result_array();
+        $ids          = array_column($credit_notes, 'id');
+
+        if (! empty($ids)) {
+            $CI->db->where_in('rel_id', $ids)->where('rel_type', 'credit_note');
+            $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+            foreach ($_attachments as $_att) {
+                $_att['download_url'] = $attachment_types['credit_note']['url'] . $_att[$attachment_types['credit_note']['download_indicator']];
+                $_att['upload_path']  = $attachment_types['credit_note']['upload_path'] . $_att[$attachment_types['credit_note']['key_indicator']] . '/' . $_att['file_name'];
+                array_push($attachments['credit_note'], $_att);
+            }
+        }
+    }
+
+    if (staff_can('view', 'estimates') || staff_can('view_own', 'estimates') || get_option('allow_staff_view_proposals_assigned') == 1) {
+        $noPermissionQuery = get_estimates_where_sql_for_staff(get_staff_user_id());
+        $CI->db->select('clientid,id')->where('clientid', $id);
+
+        if (! staff_can('view', 'estimates')) {
+            $CI->db->where($noPermissionQuery);
+        }
+
+        $CI->db->from(db_prefix() . 'estimates');
+        $estimates = $CI->db->get()->result_array();
+        $ids       = array_column($estimates, 'id');
+
+        if (! empty($ids)) {
+            $CI->db->where_in('rel_id', $ids)->where('rel_type', 'estimate');
+            $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+            foreach ($_attachments as $_att) {
+                $_att['download_url'] = $attachment_types['estimate']['url'] . $_att[$attachment_types['estimate']['download_indicator']];
+                $_att['upload_path']  = $attachment_types['estimate']['upload_path'] . $_att[$attachment_types['estimate']['key_indicator']] . '/' . $_att['file_name'];
+                array_push($attachments['estimate'], $_att);
+            }
+        }
+    }
+
+    if (staff_can('view', 'proposals') || staff_can('view_own', 'proposals') || get_option('allow_staff_view_proposals_assigned') == 1) {
+        $noPermissionQuery = get_proposals_sql_where_staff(get_staff_user_id());
+        $CI->db->select('rel_id,id')->where('rel_id', $id)->where('rel_type', 'customer');
+
+        if (! staff_can('view', 'proposals')) {
+            $CI->db->where($noPermissionQuery);
+        }
+
+        $CI->db->from(db_prefix() . 'proposals');
+        $proposals = $CI->db->get()->result_array();
+        $ids       = array_column($proposals, 'id');
+
+        if (! empty($ids)) {
+            $CI->db->where_in('rel_id', $ids)->where('rel_type', 'proposal');
+            $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+            foreach ($_attachments as $_att) {
+                $_att['download_url'] = $attachment_types['proposal']['url'] . $_att[$attachment_types['proposal']['download_indicator']];
+                $_att['upload_path']  = $attachment_types['proposal']['upload_path'] . $_att[$attachment_types['proposal']['key_indicator']] . '/' . $_att['file_name'];
+                array_push($attachments['proposal'], $_att);
+            }
+        }
+    }
+
+    $can_view_contracts = staff_can('view', 'contracts');
+    if ($can_view_contracts || staff_can('view_own', 'contracts')) {
+        $CI->db->select('client,id')->where('client', $id);
+
+        if (! $can_view_contracts) {
+            $CI->db->where('addedfrom', get_staff_user_id());
+        }
+
+        $CI->db->from(db_prefix() . 'contracts');
+        $contracts = $CI->db->get()->result_array();
+        $ids       = array_column($contracts, 'id');
+
+        if (! empty($ids)) {
+            $CI->db->where_in('rel_id', $ids)->where('rel_type', 'contract');
+            $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+            foreach ($_attachments as $_att) {
+                $_att['download_url'] = $attachment_types['contract']['url'] . $_att[$attachment_types['contract']['download_indicator']];
+                $_att['upload_path']  = $attachment_types['contract']['upload_path'] . $_att[$attachment_types['contract']['key_indicator']] . '/' . $_att['file_name'];
+                array_push($attachments['contract'], $_att);
+            }
+        }
+    }
+
+    $CI->db->select('leadid')->where('userid', $id);
+    $customer = $CI->db->get(db_prefix() . 'clients')->row();
+
+    if (! empty($customer->leadid)) {
+        $CI->db->where('rel_id', $customer->leadid)->where('rel_type', 'lead');
+        $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+        foreach ($_attachments as $_att) {
+            $_att['download_url'] = $attachment_types['lead']['url'] . $_att[$attachment_types['lead']['download_indicator']];
+            $_att['upload_path']  = $attachment_types['lead']['upload_path'] . $_att[$attachment_types['lead']['key_indicator']] . '/' . $_att['file_name'];
+            array_push($attachments['lead'], $_att);
+        }
+    }
+
+    $CI->db->select('ticketid,userid')->where('userid', $id);
+    $tickets = $CI->db->get(db_prefix() . 'tickets')->result_array();
+
+    $ids = array_column($tickets, 'ticketid');
+
+    if (! empty($ids)) {
+        $CI->db->where_in('ticketid', $ids);
+        $_attachments = $CI->db->get(db_prefix() . 'ticket_attachments')->result_array();
+
+        foreach ($_attachments as $_att) {
+            $_att['download_url'] = $attachment_types['ticket']['url'] . $_att[$attachment_types['ticket']['download_indicator']];
+            $_att['upload_path']  = $attachment_types['ticket']['upload_path'] . $_att[$attachment_types['ticket']['key_indicator']] . '/' . $_att['file_name'];
+            array_push($attachments['ticket'], $_att);
+        }
+    }
+
+    if (staff_can('view', 'tasks')) {
+        $noPermissionQuery = get_tasks_where_string(false);
+        $CI->db->select('rel_id, id')->where('rel_id', $id)->where('rel_type', 'customer');
+
+        if (! staff_can('view', 'tasks')) {
+            $CI->db->where($noPermissionQuery);
+        }
+
+        $tasks = $CI->db->get(db_prefix() . 'tasks')->result_array();
+        $ids   = array_column($tasks, 'id'); // Corrected to fetch 'id' (was 'ticketid')
+
+        if (! empty($ids)) {
+            $CI->db->where_in('rel_id', $ids)->where('rel_type', 'task');
+            $_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
+
+            foreach ($_attachments as $_att) {
+                $_att['download_url'] = $attachment_types['task']['url'] . $_att[$attachment_types['task']['download_indicator']];
+                $_att['upload_path']  = $attachment_types['task']['upload_path'] . $_att[$attachment_types['task']['key_indicator']] . '/' . $_att['file_name'];
+                array_push($attachments['task'], $_att);
+            }
+        }
+    }
+
+    $CI->db->where('rel_id', $id)->where('rel_type', 'customer' . $n);
     $client_main_attachments = $CI->db->get(db_prefix() . 'files')->result_array();
 
     foreach ($client_main_attachments as &$attachment) {
