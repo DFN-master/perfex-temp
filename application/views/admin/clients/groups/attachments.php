@@ -31,7 +31,11 @@
     <?= _l('customer_files_info_message'); ?>
 </p>
 <?php if (isset($client)) { ?>
-<?= form_open_multipart(admin_url('clients/upload_attachment/' . $client->userid . '/' . substr($_GET['group'], -2)), ['class' => 'dropzone', 'id' => 'client-attachments-upload']); ?>
+    <?php if (substr($_GET['group'], -2) == 'ts') { ?>
+        <?= form_open_multipart(admin_url('clients/upload_attachment/' . $client->userid), ['class' => 'dropzone', 'id' => 'client-attachments-upload']); ?>
+    <?php } else { ?>
+        <?= form_open_multipart(admin_url('clients/upload_attachment_n/' . $client->userid . '/' . substr($_GET['group'], -2)), ['class' => 'dropzone', 'id' => 'client-attachments-upload']); ?>
+    <?php } ?>
 <input type="file" name="file" multiple />
 <?= form_close(); ?>
 <div class="tw-flex tw-justify-end tw-items-center tw-space-x-2 mtop15">

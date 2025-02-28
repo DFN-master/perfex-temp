@@ -607,7 +607,12 @@ class Clients extends AdminController
         ]);
     }
 
-    public function upload_attachment($id, $n)
+    public function upload_attachment($id)
+    {
+        handle_client_attachments_upload($id, '');
+    }
+
+    public function upload_attachment_n($id, $n)
     {
         handle_client_attachments_upload($id, $n);
     }
