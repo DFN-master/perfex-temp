@@ -1737,3 +1737,29 @@ function get_required_fields_for_registration()
         ],
     ];
 }
+
+function get_customer_process_name($id, $n){
+
+    $CI = &get_instance();
+
+    $CI->db->select('Name')->where('userid', $id)->where('rel_type', 'customer' . $n);
+    $process = $CI->db->get(db_prefix() . 'processes')->result_array();
+
+    if($process != null) $process = $process[0];
+
+    return hooks()->apply_filters('all_client_attachments', $process);
+}
+
+function update_customer_process_name($id, $n, $name){
+    $CI = &get_instance();
+
+    if(get_customer_process_name($id, $n) == null){
+        $CI->db->where('userid', $id)->where('rel_type', 'customer' . $n);
+        $CI->db->insert(db_prefix() . 'processes', array('Name' => $name, 'rel_type' => 'customer' . $n, 'userid' => $id));
+    } else{
+        $CI->db->where('userid', $id)->where('rel_type', 'customer' . $n);
+        $CI->db->update(db_prefix() . 'processes', array('Name' => $name));
+    }
+
+    return 0;
+}

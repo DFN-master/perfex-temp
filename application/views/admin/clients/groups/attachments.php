@@ -24,9 +24,30 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<h4 class="customer-profile-group-heading">
-    <?= _l('customer_attachments'); ?>
-</h4>
+<form action=<?= admin_url('clients/update_process_name/') ?>>
+    <input name="id" value=<?= $client->userid ?> hidden />
+    <input name="n" value=<?= substr($_GET['group'], -2) ?> hidden />
+    <input
+        type="text"
+        name="name"
+        class="customer-profile-group-heading"
+        style="
+            background: none; 
+            border: none; 
+            box-shadow: none;
+        "
+        value=
+            <?php if ($process != null) { ?>
+                <?= _l('"' . $process['Name'] . '"') ?>
+            <?php } elseif ($process == null && substr($_GET['group'], -1) == 's') { ?>
+                <?= _l('"Processo 1"') ?>
+            <?php } elseif ($process == null) {?>
+                <?= _l('"' . 'Processo ' .  substr($_GET['group'], -1) . '"') ?>
+            <?php } ?>
+    />
+
+    <input type="submit" hidden/>
+</form>
 <p class="text-info">
     <?= _l('customer_files_info_message'); ?>
 </p>
@@ -35,7 +56,7 @@
         <?= form_open_multipart(admin_url('clients/upload_attachment/' . $client->userid), ['class' => 'dropzone', 'id' => 'client-attachments-upload']); ?>
     <?php } else { ?>
         <?= form_open_multipart(admin_url('clients/upload_attachment_n/' . $client->userid . '/' . substr($_GET['group'], -2)), ['class' => 'dropzone', 'id' => 'client-attachments-upload']); ?>
-    <?php } ?>
+<?php } ?>
 <input type="file" name="file" multiple />
 <?= form_close(); ?>
 <div class="tw-flex tw-justify-end tw-items-center tw-space-x-2 mtop15">

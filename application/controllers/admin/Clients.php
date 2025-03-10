@@ -153,14 +153,19 @@ class Clients extends AdminController
                 $data['customer_admins'] = $this->clients_model->get_admins($id);
             } elseif ($group == 'attachments') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '');
+                $data['process'] = get_customer_process_name($id, '');
             } elseif ($group == 'attachments-2') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-2');
+                $data['process'] = get_customer_process_name($id, '-2');
             } elseif ($group == 'attachments-3') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-3');
+                $data['process'] = get_customer_process_name($id, '-3');
             } elseif ($group == 'attachments-4') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-4');
+                $data['process'] = get_customer_process_name($id, '-4');
             } elseif ($group == 'attachments-5') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-5');
+                $data['process'] = get_customer_process_name($id, '-5');
             } elseif ($group == 'vault') {
                 $data['vault_entries'] = hooks()->apply_filters('check_vault_entries_visibility', $this->clients_model->get_vault_entries($id));
 
@@ -1097,5 +1102,17 @@ class Clients extends AdminController
         $viewData['html'] = $this->load->view('admin/clients/groups/_statement', $data, true);
 
         echo json_encode($viewData);
+    }
+
+    public function update_process_name(){
+        $id = $_GET['id'];
+        $n = $_GET['n'];
+        $name = $_GET['name'];
+
+        if($n == 'ts') $n = '';
+        
+        update_customer_process_name($id, $n, $name);
+        header( 'Location: ' . admin_url('clients/client/' . $id . '?group=attachments' . $n));
+        exit;
     }
 }
