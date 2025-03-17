@@ -1,5 +1,5 @@
 /index.php
 /application/config/app-config.php
 /application/logs/*
-/uploads/company/*
-/uploads/clients/*
+/uploads/*/*/*
+/modules/hrm/uploads/*/*
