@@ -3,3 +3,4 @@
 /application/logs/*
 /uploads/*/*/*
 /modules/hrm/uploads/*/*
+/modules/document_management/uploads/temps/bulk_downloads/*
