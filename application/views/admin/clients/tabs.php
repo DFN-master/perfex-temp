@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php $tabs = filter_client_visible_tabs($customer_tabs, $client->userid); ?>
 
+
 <select class="tw-block md:tw-hidden form-control" onchange="redirectToTab(this)">
   <?php foreach ($tabs as $key => $tab) { ?>
   <?php $current = (! $this->input->get('group') && $key === 'profile') || $this->input->get('group') === $key; ?>
@@ -11,6 +12,7 @@
     (<?= e($tab['badge']['value']) ?>)
     <?php } ?>
   </option>
+  echo "<script> console.log(<?= $tab['badge']['value'] ?>) </script>" 
   <?php } ?>
 </select>
 
@@ -56,4 +58,6 @@
         `<?= admin_url('clients/client/'); ?>${clientId}?group=${key}`;
     }
   }
+
+  
 </script>

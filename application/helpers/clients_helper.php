@@ -338,7 +338,7 @@ function app_init_customer_profile_tabs()
         'badge'    => [],
     ]);
 
-    $CI->app_tabs->add_customer_profile_tab('attachments-2', [
+    $CI->app_tabs->add_customer_profile_tab('attachments_2', [
         'name'     => _l('customer_attachments_2'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/clients/groups/attachments',
@@ -346,7 +346,7 @@ function app_init_customer_profile_tabs()
         'badge'    => [],
     ]);
 
-    $CI->app_tabs->add_customer_profile_tab('attachments-3', [
+    $CI->app_tabs->add_customer_profile_tab('attachments_3', [
         'name'     => _l('customer_attachments_3'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/clients/groups/attachments',
@@ -354,7 +354,7 @@ function app_init_customer_profile_tabs()
         'badge'    => [],
     ]);
 
-    $CI->app_tabs->add_customer_profile_tab('attachments-4', [
+    $CI->app_tabs->add_customer_profile_tab('attachments_4', [
         'name'     => _l('customer_attachments_4'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/clients/groups/attachments',
@@ -362,7 +362,7 @@ function app_init_customer_profile_tabs()
         'badge'    => [],
     ]);
 
-    $CI->app_tabs->add_customer_profile_tab('attachments-5', [
+    $CI->app_tabs->add_customer_profile_tab('attachments_5', [
         'name'     => _l('customer_attachments_5'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/clients/groups/attachments',

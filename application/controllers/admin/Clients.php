@@ -154,16 +154,16 @@ class Clients extends AdminController
             } elseif ($group == 'attachments') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '');
                 $data['process'] = get_customer_process_name($id, '');
-            } elseif ($group == 'attachments-2') {
+            } elseif ($group == 'attachments_2') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-2');
                 $data['process'] = get_customer_process_name($id, '-2');
-            } elseif ($group == 'attachments-3') {
+            } elseif ($group == 'attachments_3') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-3');
                 $data['process'] = get_customer_process_name($id, '-3');
-            } elseif ($group == 'attachments-4') {
+            } elseif ($group == 'attachments_4') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-4');
                 $data['process'] = get_customer_process_name($id, '-4');
-            } elseif ($group == 'attachments-5') {
+            } elseif ($group == 'attachments_5') {
                 $data['attachments'] = get_all_customer_attachments_n($id, '-5');
                 $data['process'] = get_customer_process_name($id, '-5');
             } elseif ($group == 'vault') {
