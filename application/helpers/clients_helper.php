@@ -1329,27 +1329,27 @@ function get_all_customer_attachments_n($id, $n)
             'download_indicator' => 'attachment_key',
             'key_indicator'      => 'rel_id',
         ],
-        'customer-2' => [
+        'customer_2' => [
             'url'                => site_url() . 'download/file/client/',
-            'upload_path'        => get_upload_path_by_type('customer-2'),
+            'upload_path'        => get_upload_path_by_type('customer_2'),
             'download_indicator' => 'attachment_key',
             'key_indicator'      => 'rel_id',
         ],
-        'customer-3' => [
+        'customer_3' => [
             'url'                => site_url() . 'download/file/client/',
-            'upload_path'        => get_upload_path_by_type('customer-3'),
+            'upload_path'        => get_upload_path_by_type('customer_3'),
             'download_indicator' => 'attachment_key',
             'key_indicator'      => 'rel_id',
         ],
-        'customer-4' => [
+        'customer_4' => [
             'url'                => site_url() . 'download/file/client/',
-            'upload_path'        => get_upload_path_by_type('customer-4'),
+            'upload_path'        => get_upload_path_by_type('customer_4'),
             'download_indicator' => 'attachment_key',
             'key_indicator'      => 'rel_id',
         ],
-        'customer-5' => [
+        'customer_5' => [
             'url'                => site_url() . 'download/file/client/',
-            'upload_path'        => get_upload_path_by_type('customer-5'),
+            'upload_path'        => get_upload_path_by_type('customer_5'),
             'download_indicator' => 'attachment_key',
             'key_indicator'      => 'rel_id',
         ],

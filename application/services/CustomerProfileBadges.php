@@ -205,28 +205,28 @@ class CustomerProfileBadges
     public function attachments_2()
     {
         $this->CI->db->where('rel_id', $this->customerId);
-        $this->CI->db->where('rel_type', 'customer-2');
+        $this->CI->db->where('rel_type', 'customer_2');
 
         return $this->CI->db->count_all_results('files');
     }
     public function attachments_3()
     {
         $this->CI->db->where('rel_id', $this->customerId);
-        $this->CI->db->where('rel_type', 'customer-3');
+        $this->CI->db->where('rel_type', 'customer_3');
 
         return $this->CI->db->count_all_results('files');
     }
     public function attachments_4()
     {
         $this->CI->db->where('rel_id', $this->customerId);
-        $this->CI->db->where('rel_type', 'customer-4');
+        $this->CI->db->where('rel_type', 'customer_4');
 
         return $this->CI->db->count_all_results('files');
     }
     public function attachments_5()
     {
         $this->CI->db->where('rel_id', $this->customerId);
-        $this->CI->db->where('rel_type', 'customer-5');
+        $this->CI->db->where('rel_type', 'customer_5');
 
         return $this->CI->db->count_all_results('files');
     }

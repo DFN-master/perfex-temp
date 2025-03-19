@@ -155,17 +155,17 @@ class Clients extends AdminController
                 $data['attachments'] = get_all_customer_attachments_n($id, '');
                 $data['process'] = get_customer_process_name($id, '');
             } elseif ($group == 'attachments_2') {
-                $data['attachments'] = get_all_customer_attachments_n($id, '-2');
-                $data['process'] = get_customer_process_name($id, '-2');
+                $data['attachments'] = get_all_customer_attachments_n($id, '_2');
+                $data['process'] = get_customer_process_name($id, '_2');
             } elseif ($group == 'attachments_3') {
-                $data['attachments'] = get_all_customer_attachments_n($id, '-3');
-                $data['process'] = get_customer_process_name($id, '-3');
+                $data['attachments'] = get_all_customer_attachments_n($id, '_3');
+                $data['process'] = get_customer_process_name($id, '_3');
             } elseif ($group == 'attachments_4') {
-                $data['attachments'] = get_all_customer_attachments_n($id, '-4');
-                $data['process'] = get_customer_process_name($id, '-4');
+                $data['attachments'] = get_all_customer_attachments_n($id, '_4');
+                $data['process'] = get_customer_process_name($id, '_4');
             } elseif ($group == 'attachments_5') {
-                $data['attachments'] = get_all_customer_attachments_n($id, '-5');
-                $data['process'] = get_customer_process_name($id, '-5');
+                $data['attachments'] = get_all_customer_attachments_n($id, '_5');
+                $data['process'] = get_customer_process_name($id, '_5');
             } elseif ($group == 'vault') {
                 $data['vault_entries'] = hooks()->apply_filters('check_vault_entries_visibility', $this->clients_model->get_vault_entries($id));
 
